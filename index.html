@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Animations & Local Storage</title>
+    <style>
+        /* Button styles */
+        #animateButton {
+            padding: 15px 30px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* CSS Animation */
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Applied when animation is triggered */
+        .bouncing {
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        /* Styles for when the animation is active */
+        .active {
+            background-color: #FF6347;
+        }
+    </style>
+</head>
+<body>
+    <h2>Click the button to animate!</h2>
+    <button id="animateButton">Click Me!</button>
+
+    <script>
+        // JavaScript to trigger animation and store preferences
+
+        // Function to store user preferences
+        function storePreference(key, value) {
+            localStorage.setItem(key, value);
+        }
+
+        // Function to retrieve user preferences
+        function getPreference(key) {
+            return localStorage.getItem(key);
+        }
+
+        // Get the button element
+        const button = document.getElementById('animateButton');
+
+        // Check if user has already triggered animation before
+        const isActive = getPreference('isActive');
+
+        // If previously stored, apply animation and styles
+        if (isActive === 'true') {
+            button.classList.add('bouncing');
+            button.classList.add('active');
+        }
+
+        // Event listener to trigger animation
+        button.addEventListener('click', () => {
+            button.classList.toggle('bouncing'); // Toggle animation class
+            button.classList.toggle('active'); // Toggle active style
+            const isAnimationActive = button.classList.contains('bouncing');
+            
+            // Store the animation state
+            storePreference('isActive', isAnimationActive.toString());
+        });
+    </script>
+</body>
+</html>
